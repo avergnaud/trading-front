@@ -1,74 +1,86 @@
 import classes from "./Search.module.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { Context } from "../state/context";
 
-const Login = () => {
+const Search = (props) => {
 
-  const [inputedPair, setInputedPair] = useState("");
-  const [availablePairs, setAvailablePairs] = useState([]);
-  const [selectedPair, setSelectedPair] = useState("");
+  const url = props.url;
+  const name = props.name;
+
+  /* global state */
+  const [state, dispatch] = useContext(Context);
+
+  /* local state */
+  const [inputValue, setInputValue] = useState("");
+  const [availableValues, setAvailableValues] = useState([]);
 
   useEffect(() => {
     const identifier = setTimeout(() => {
-      console.log(`fetching binance pairs after 1 sec ${inputedPair}`);
-      fetch("http://localhost:5000/tmp/binance/pairs")
+      console.log(`fetching ${url} after 0.5s`);
+      fetch(url)
         .then((res) => res.json())
         .then((json) => {
-          let tmp = json.filter(element => element.pair && element.pair.includes(inputedPair));
-          setAvailablePairs(tmp);
+          
+          let tmp = json.filter(
+            (element) => {
+              let elementName = element[name] && element[name].toString()
+              return element[name] && elementName.includes(inputValue)
+            }
+          );
+          setAvailableValues(tmp);
         });
-    }, 1000);
+    }, 500);
 
     return () => {
-      //console.log(`clearTimeout ! ${inputedPair}`);
       clearTimeout(identifier);
     };
-  }, [inputedPair]);
+  }, [inputValue, url, name]);
 
   const submitHandler = (e) => {
     e.preventDefault();
   };
 
   const inputHandler = (e) => {
-    setInputedPair(e.target.value);
+    setInputValue(e.target.value);
   };
 
-  const selectOnChangeHandler = e => {
-    setSelectedPair(e.target.value)
-  }
+  const selectOnChangeHandler = (e) => {
+    dispatch({ type: "field", fieldName: name, payload: e.target.value });
+  };
 
-  const selectElements = availablePairs.map(element => <option key={element._id} value={element.pair}>{element.pair}</option>);
+  const selectElements = availableValues.map((element) => (
+    <option key={element._id} value={element[name]}>
+      {element[name]}
+    </option>
+  ));
 
   return (
-    <div className={classes.login}>
-      <form onSubmit={submitHandler}>
-        <div className={classes.control}>
-          <label htmlFor="pair">Trading pair</label>
+    <div className="col">
+        <div>
+          <label htmlFor={name}>{props.inputLabel}</label>
           <input
             type="text"
-            id="pair"
-            value={inputedPair}
+            id={name}
+            value={inputValue}
             onChange={inputHandler}
             onBlur={inputHandler}
           />
         </div>
-        <div className={classes.control}>
-          <label htmlFor="list">Available pairs</label>
+        <div>
+          <label htmlFor="list">{props.availableLabel}</label>
           <select
             id="list"
             size="10"
-            value={selectedPair}
+            value={state[name]}
             onChange={selectOnChangeHandler}
             onClick={selectOnChangeHandler}
           >
             {selectElements}
           </select>
         </div>
-        <div>
-            {selectedPair}
-        </div>
-      </form>
+        <div>{state[name]}</div>
     </div>
   );
 };
 
-export default Login;
+export default Search;
