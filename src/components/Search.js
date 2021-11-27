@@ -1,84 +1,60 @@
-import classes from "./Search.module.css";
-import { useState, useEffect, useContext } from "react";
+import { useContext } from "react";
 import { Context } from "../state/context";
+import SearchBox from "./SearchBox";
 
-const Search = (props) => {
+const EXCHANGES_ENDPOINT = 'http://localhost:5000/exchanges';
 
-  const url = props.url;
-  const name = props.name;
+const Search = () => {
 
   /* global state */
   const [state, dispatch] = useContext(Context);
 
-  /* local state */
-  const [inputValue, setInputValue] = useState("");
-  const [availableValues, setAvailableValues] = useState([]);
-
-  useEffect(() => {
-    const identifier = setTimeout(() => {
-      console.log(`fetching ${url} after 0.5s`);
-      fetch(url)
-        .then((res) => res.json())
-        .then((json) => {
-          
-          let tmp = json.filter(
-            (element) => {
-              let elementName = element[name] && element[name].toString()
-              return element[name] && elementName.includes(inputValue)
-            }
-          );
-          setAvailableValues(tmp);
-        });
-    }, 500);
-
-    return () => {
-      clearTimeout(identifier);
-    };
-  }, [inputValue, url, name]);
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-  };
-
-  const inputHandler = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  const selectOnChangeHandler = (e) => {
-    dispatch({ type: "field", fieldName: name, payload: e.target.value });
-  };
-
-  const selectElements = availableValues.map((element) => (
-    <option key={element._id} value={element[name]}>
-      {element[name]}
-    </option>
-  ));
+  const cronChangeHandler = event => {
+    dispatch({ type: 'field', payload: event.target.value })
+  }
 
   return (
-    <div className="col">
+    <div className="row">
+      <div className="col">
+        <SearchBox
+          name="exchange"
+          inputLabel="Exchange"
+          url={EXCHANGES_ENDPOINT}
+        />
+      </div>
+      <div className="col">
+        <SearchBox
+          name="pair"
+          inputLabel="Pair"
+          url={`${EXCHANGES_ENDPOINT}/${state.exchange}/pairs`}
+        />
+      </div>
+      <div className="col">
+        <SearchBox
+          name="interval"
+          inputLabel="Interval"
+          url={`${EXCHANGES_ENDPOINT}/${state.exchange}/intervals`}
+        />
+      </div>
+      <div className="col">
+        <label htmlFor="cron" className="control-label">
+          cron
+        </label>
         <div>
-          <label htmlFor={name}>{props.inputLabel}</label>
           <input
             type="text"
-            id={name}
-            value={inputValue}
-            onChange={inputHandler}
-            onBlur={inputHandler}
+            id="cron"
+            value={state.cron}
+            onChange={cronChangeHandler}
+            onBlur={cronChangeHandler}
           />
         </div>
         <div>
-          <label htmlFor="list">{props.availableLabel}</label>
-          <select
-            id="list"
-            size="10"
-            value={state[name]}
-            onChange={selectOnChangeHandler}
-            onClick={selectOnChangeHandler}
-          >
-            {selectElements}
-          </select>
+          <a href="https://crontab.guru/" target="_blank" rel="noreferrer">
+            crontab.guru
+          </a>
         </div>
-        <div>{state[name]}</div>
+      </div>
     </div>
   );
 };
