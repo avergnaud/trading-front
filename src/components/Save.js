@@ -25,9 +25,9 @@ const Save = () => {
     })
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
         dispatch({
           type: "SAVE_DEFINITION",
+          payload: json
         });
       });
   };

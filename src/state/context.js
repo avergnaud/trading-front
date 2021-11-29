@@ -6,11 +6,12 @@ const INITIAL_STATE = {
   interval: "",
   cron: "*/15 * * * *",
   isValidCron: true,
-  ohlcDefinitions: [],
+  ohlcDefinitions: {},
   error: null,
 };
 
 const reducer = (state, action) => {
+
   switch (action.type) {
     /* générique. Sera complété avec d'autres actions... 
     si ça se complique, on passera des onClick aux différents Search.js
@@ -32,9 +33,18 @@ const reducer = (state, action) => {
       };
     }
     case "init_definitions": {
+      let newOhlcDefinitions = {};
+      for (let ohlcDefinition of action.payload) {
+        newOhlcDefinitions[ohlcDefinition["_id"]] = {
+          exchange: ohlcDefinition.exchange,
+          pair: ohlcDefinition.pair,
+          interval: ohlcDefinition.interval,
+          update_cron: ohlcDefinition.update_cron,
+        };
+      }
       return {
         ...state,
-        ohlcDefinitions: action.payload,
+        ohlcDefinitions: newOhlcDefinitions,
       };
     }
     case "error":
@@ -47,10 +57,32 @@ const reducer = (state, action) => {
         ...state,
         error: null,
       };
-    case "SAVE_DEFINITION":
+    case "SAVE_DEFINITION": {
+      let newOhlcDefinitions = {
+        ...state.ohlcDefinitions,
+      };
+      newOhlcDefinitions[action.payload["_id"]] = {
+        exchange: action.payload.exchange,
+        pair: action.payload.pair,
+        interval: action.payload.interval,
+        update_cron: action.payload.update_cron,
+      };
       return {
-        ...state
+        ...state,
+        ohlcDefinitions: newOhlcDefinitions,
+      };
+    };
+    case "remove_definition": {
+      /* filter returns a new array */
+      let newOhlcDefinitions = {
+        ...state.ohlcDefinitions
       }
+      delete newOhlcDefinitions[action.payload];
+      return {
+        ...state,
+        ohlcDefinitions: newOhlcDefinitions,
+      };
+    }
     default:
       return state;
   }
