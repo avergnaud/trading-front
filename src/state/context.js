@@ -1,10 +1,11 @@
 import React, { useReducer, createContext } from "react";
 
 const INITIAL_STATE = {
-  exchange: "",
+  exchange: "binance",
   pair: "",
   interval: "",
   cron: "*/15 * * * *",
+  isValidCron: true,
   ohlcDefinitions: [],
   error: null,
 };
@@ -46,6 +47,10 @@ const reducer = (state, action) => {
         ...state,
         error: null,
       };
+    case "SAVE_DEFINITION":
+      return {
+        ...state
+      }
     default:
       return state;
   }

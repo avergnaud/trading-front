@@ -1,6 +1,7 @@
 import classes from "./SearchBox.module.css";
 import { useState, useEffect, useContext } from "react";
 import { Context } from "../state/context";
+import Loader from "../UI/Loader";
 
 const SearchBox = (props) => {
   const url = props.url;
@@ -12,8 +13,10 @@ const SearchBox = (props) => {
   /* local state */
   const [inputValue, setInputValue] = useState("");
   const [availableValues, setAvailableValues] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(url)
       .then((res) => {
         if (res.ok) {
@@ -24,7 +27,10 @@ const SearchBox = (props) => {
           return [];
         }
       })
-      .then((json) => setAvailableValues(json));
+      .then((json) => {
+        setIsLoading(false);
+        setAvailableValues(json);
+      });
   }, [url, name, dispatch]);
 
   const inputHandler = (e) => {
@@ -49,39 +55,59 @@ const SearchBox = (props) => {
 
   return (
     <>
-      <div>
-        <label htmlFor={name} className="control-label">
-          {props.inputLabel}
-        </label>
-        <div>
-          <input
-            type="text"
-            id={name}
-            value={inputValue}
-            onChange={inputHandler}
-            onBlur={inputHandler}
-          />
-          <button
-            type="button"
-            className={"btn-close " + classes.clear}
-            aria-label="Close"
-            onClick={(e) => setInputValue("")}
-          ></button>
+      {isLoading && (
+        <div className={`row ${classes.loaderContainer}`}>
+          <div className={`col my-auto ${classes.loader}`}>
+            <Loader />
+          </div>
         </div>
-      </div>
-      <div>
-        <select
-          id="list"
-          size="10"
-          value={state[name]}
-          onChange={selectOnChangeHandler}
-          onClick={selectOnChangeHandler}
-          className={classes.selectBox}
-        >
-          {selectElements}
-        </select>
-      </div>
-      <div className={classes.searchResult}>{state[name]}</div>
+      )}
+      {!isLoading && (
+        <>
+          <p className="lead">
+            <label htmlFor={name} className="control-label">
+              {props.inputLabel}
+            </label>
+          </p>
+          <div className="row my-1">
+            <div className="col-10">
+              <input
+                type="text"
+                id={name}
+                value={inputValue}
+                onChange={inputHandler}
+                onBlur={inputHandler}
+                className="form-control"
+              />
+            </div>
+            <div className="col-2">
+              <button
+                type="button"
+                className={"btn-close " + classes.clear}
+                aria-label="Close"
+                onClick={(e) => setInputValue("")}
+              ></button>
+            </div>
+          </div>
+          <div>
+            <select
+              id="list"
+              size="10"
+              value={state[name]}
+              onChange={selectOnChangeHandler}
+              onClick={selectOnChangeHandler}
+              className={`form-select ${classes.selectBox}`}
+            >
+              {selectElements}
+            </select>
+          </div>
+          <div
+            className={`rounded p-3 my-1 bg-success text-white fs-5 ${classes.result}`}
+          >
+            {state[name]}
+          </div>
+        </>
+      )}
     </>
   );
 };

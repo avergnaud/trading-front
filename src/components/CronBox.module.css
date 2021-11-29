@@ -1,0 +1,9 @@
+.comment {
+    height: 120px;
+    overflow: hidden;
+}
+
+.result {
+    min-height: 62px;
+    margin-top: 124px;
+}

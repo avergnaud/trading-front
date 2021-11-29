@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Context } from "./state/context";
 import Search from "./components/Search";
+import Save from "./components/Save";
 import Definitions from "./components/Definitions";
 import "./App.css";
 
@@ -15,6 +16,7 @@ function App() {
       </header>
       <main>
         <Search />
+        <Save />
         <Definitions />
       </main>
       <div className="row">{state.error}</div>
