@@ -4,8 +4,7 @@ const INITIAL_STATE = {
   exchange: "binance",
   pair: "",
   interval: "",
-  cron: "*/15 * * * *",
-  isValidCron: true,
+  update_rate: 5,
   ohlcDefinitions: {},
   error: null,
 };
@@ -39,7 +38,7 @@ const reducer = (state, action) => {
           exchange: ohlcDefinition.exchange,
           pair: ohlcDefinition.pair,
           interval: ohlcDefinition.interval,
-          update_cron: ohlcDefinition.update_cron,
+          update_rate: ohlcDefinition.update_rate,
         };
       }
       return {
@@ -65,7 +64,7 @@ const reducer = (state, action) => {
         exchange: action.payload.exchange,
         pair: action.payload.pair,
         interval: action.payload.interval,
-        update_cron: action.payload.update_cron,
+        update_rate: action.payload.update_rate,
       };
       return {
         ...state,

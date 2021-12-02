@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Context } from "../state/context";
 import SearchBox from "./SearchBox";
-import CronBox from "./CronBox";
+import CronBox from "./UpdateRateBox";
 
 const EXCHANGES_ENDPOINT = "http://localhost:5000/exchanges";
 

@@ -1,8 +1,9 @@
 import { useEffect, useContext } from "react";
 import { Context } from "../state/context";
 import Definition from "./Definition";
+import { API_URL } from "../constants";
 
-const url = "http://localhost:5000/ohlc_definitions";
+const url = `${API_URL}/ohlc_definitions`;
 
 const Definitions = () => {
   /* global state */
@@ -33,7 +34,7 @@ const Definitions = () => {
             <th scope="col">Exchange</th>
             <th scope="col">Pair</th>
             <th scope="col">Interval</th>
-            <th scope="col">Update cron</th>
+            <th scope="col">Update rate</th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -45,7 +46,7 @@ const Definitions = () => {
               exchange={definition.exchange}
               pair={definition.pair}
               interval={definition.interval}
-              update_cron={definition.update_cron}
+              update_rate={definition.update_rate}
             />
           ))}
         </tbody>
