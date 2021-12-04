@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   exchange: "binance",
   pair: "",
   interval: "",
-  update_rate: 5,
+  update_rate: 20,
   ohlcDefinitions: {},
   error: null,
 };

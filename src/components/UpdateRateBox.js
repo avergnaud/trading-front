@@ -21,7 +21,7 @@ const CronBox = () => {
       <div>
         <input
           type="number"
-          min="5"
+          min="10"
           id="update_rate"
           value={state.update_rate}
           onChange={cronChangeHandler}

@@ -27,7 +27,8 @@ const Definitions = () => {
   }, [dispatch]);
 
   return (
-    <div className="row">
+    <div className="row mt-5">
+      <h1 className="display-6">OHLC definitions:</h1>
       <table className="table">
         <thead>
           <tr>

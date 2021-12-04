@@ -47,11 +47,20 @@ const SearchBox = (props) => {
       let elementName = element[name] && element[name].toString();
       return element[name] && elementName.includes(inputValue);
     })
-    .map((element) => (
-      <option key={element._id} value={element[name]}>
-        {element[name]}
-      </option>
-    ));
+    .map((element) => {
+      if(element['allowed'] === false) {
+        return (
+          <option key={element._id} value="" disabled>
+            {element[name]}
+          </option>
+        );
+      }
+      return (
+        <option key={element._id} value={element[name]}>
+          {element[name]}
+        </option>
+      );
+    });
 
   return (
     <>

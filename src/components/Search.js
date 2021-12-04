@@ -10,7 +10,8 @@ const Search = () => {
   const [state, dispatch] = useContext(Context);
 
   return (
-    <div className="row">
+    <div className="row mt-5">
+      <h1 className="display-6">Add a new OHLC definition:</h1>
       <div className="col border border-success m-1">
         <SearchBox
           name="exchange"

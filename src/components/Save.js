@@ -34,7 +34,7 @@ const Save = () => {
   };
 
   return (
-    <div className="row my-1">
+    <div className="row my-3">
       <button
         disabled={!isEnabled}
         className={`btn btn-primary ${classes.saveButton}`}
