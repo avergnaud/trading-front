@@ -1,3 +1,8 @@
 tr.middle td {
     vertical-align:middle;
+    cursor: pointer;
+}
+
+td.deleteTd {
+    text-align: center;
 }
