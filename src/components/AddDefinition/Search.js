@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Context } from "../state/context";
+import { Context } from "../../state/context";
 import SearchBox from "./SearchBox";
 import CronBox from "./UpdateRateBox";
 

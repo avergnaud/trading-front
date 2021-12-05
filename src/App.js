@@ -1,9 +1,10 @@
 import { useContext } from "react";
+import { Routes, Route } from "react-router-dom";
 import { Context } from "./state/context";
-import Search from "./components/Search";
-import Save from "./components/Save";
-import Definitions from "./components/Definitions";
+import HomePage from "./pages/HomePage";
+import DefinitionsPage from "./pages/DefinitionsPage";
 import "./App.css";
+import Layout from "./layout/Layout";
 
 function App() {
   /* global state */
@@ -11,19 +12,13 @@ function App() {
 
   return (
     <div className="container">
-      <header className="my-3 App-header">
-          <h1 className="display-1">Brochain.net</h1>
-          <p className="lead">
-            Backtesting & bot trading
-          </p>
-          <hr className="my-4" />
-      </header>
-      <main>
-        <Search />
-        <Save />
-        <Definitions />
-      </main>
-      <div className="row">{state.error}</div>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<HomePage />}></Route>
+          <Route path="/definitions" element={<DefinitionsPage />}></Route>
+        </Routes>
+        <div className="row">{state.error}</div>
+      </Layout>
     </div>
   );
 }

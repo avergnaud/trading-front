@@ -1,7 +1,7 @@
 import classes from "./SearchBox.module.css";
 import { useState, useEffect, useContext } from "react";
-import { Context } from "../state/context";
-import Loader from "../UI/Loader";
+import { Context } from "../../state/context";
+import Loader from "../../UI/Loader";
 
 const SearchBox = (props) => {
   const url = props.url;

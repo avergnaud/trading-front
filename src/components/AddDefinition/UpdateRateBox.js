@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Context } from "../state/context";
+import { Context } from "../../state/context";
 import classes from "./UpdateRateBox.module.css";
 
 const CronBox = () => {

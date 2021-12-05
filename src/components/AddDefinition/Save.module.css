@@ -1,0 +1,18 @@
+button.saveButton {
+    min-height: 62px;
+    min-width: 296px;
+  }
+
+button.saveButton:disabled {
+  cursor: not-allowed;
+  pointer-events: all !important;
+}
+
+.close {
+  width: 100%;
+  text-align: center;
+}
+
+.saveTitle {
+  min-height: 28px;
+}
