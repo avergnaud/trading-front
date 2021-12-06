@@ -13,7 +13,10 @@ const OHLCChartContainer = (props) => {
 
   const url = `${API_URL}/ohlcs/${props.exchange}/${props.pair}/${props.interval}?last=1000`;
 
-  /* TODO : ? supprimer les tailles ? */
+  /* 
+  innerWidth et innerOhlcHeight : ne compte que pour la forme du graphe (ratio innerWidth/innerOhlcHeight)
+
+  */
   const visual = {
     innerWidth: 435,
     innerOhlcHeight: 167,
@@ -25,7 +28,7 @@ const OHLCChartContainer = (props) => {
       xaxis: 50,
       yaxis: 50,
     },
-    timeFormat: d3.timeFormat("%Y-%m-%d"),
+    timeFormat: d3.timeFormat("%m-%d %Hh"),
   };
 
   // pour debug

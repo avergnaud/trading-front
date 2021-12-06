@@ -4,6 +4,7 @@ const INITIAL_STATE = {
   exchange: "binance",
   pair: "",
   interval: "",
+  intervalIndex: "",
   update_rate: 20,
   ohlcDefinitions: {},
   error: null,
@@ -30,6 +31,13 @@ const reducer = (state, action) => {
         ...state,
         [action.fieldName]: action.payload,
       };
+    }
+    case "SELECT_INTERVAL": {
+      return {
+        ...state,
+        interval: action.payload.interval,
+        intervalIndex: action.payload.index
+      }
     }
     case "init_definitions": {
       let newOhlcDefinitions = {};

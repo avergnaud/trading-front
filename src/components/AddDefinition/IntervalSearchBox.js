@@ -3,10 +3,8 @@ import { useState, useEffect, useContext } from "react";
 import { Context } from "../../state/context";
 import Loader from "../../UI/Loader";
 
-const SearchBox = (props) => {
+const IntervalSearchBox = (props) => {
   const url = props.url;
-  const name = props.name;
-  const detailName = props.detailName;
 
   /* global state */
   const [state, dispatch] = useContext(Context);
@@ -32,7 +30,7 @@ const SearchBox = (props) => {
         setIsLoading(false);
         setAvailableValues(json);
       });
-  }, [url, name, dispatch]);
+  }, [url, dispatch]);
 
   const inputHandler = (e) => {
     setInputValue(e.target.value);
@@ -40,19 +38,38 @@ const SearchBox = (props) => {
 
   const selectOnChangeHandler = (e) => {
     //setInputValue(e.target.value);
-    dispatch({ type: "field", fieldName: name, payload: e.target.value });
+    //console.log(e.target.selectedOptions)
+    const element = selectValues[e.target.value];
+    if(element) {
+      dispatch({
+        type: "SELECT_INTERVAL",
+        payload: { index: e.target.value, interval: element["interval"] },
+      });
+    }
   };
 
-  const selectElements = availableValues
-    .filter((element) => {
-      let elementName = element[name] && element[name].toString();
-      return element[name] && elementName.includes(inputValue);
-    })
-    .map((element) => (
-      <option key={element._id} value={element[name]}>
-        {element[name]}
-      </option>
-    ));
+  const selectValues = availableValues.filter((element) => {
+    let elementName = element["interval"] && element["interval"].toString();
+    return element["interval"] && elementName.includes(inputValue);
+  });
+
+  const selectElements = selectValues.map((element, index) => {
+    if (element["allowed"] === false) {
+      return (
+        <option key={element._id} value="" disabled>
+          {element["interval"]}{" "}
+          {element["interval_std"] && `[${element["interval_std"]}]`}
+        </option>
+      );
+    } else {
+      return (
+        <option key={element._id} value={index} data-std={element["interval_std"]}>
+          {element["interval"]}{" "}
+          {element["interval_std"] && `[${element["interval_std"]}]`}
+        </option>
+      );
+    }
+  });
 
   return (
     <>
@@ -66,15 +83,15 @@ const SearchBox = (props) => {
       {!isLoading && (
         <>
           <p className="lead">
-            <label htmlFor={name} className="control-label">
-              {props.inputLabel}
+            <label htmlFor={"interval"} className="control-label">
+              Interval
             </label>
           </p>
           <div className="row my-1">
             <div className="col-10">
               <input
                 type="text"
-                id={name}
+                id={"interval"}
                 value={inputValue}
                 onChange={inputHandler}
                 onBlur={inputHandler}
@@ -94,7 +111,7 @@ const SearchBox = (props) => {
             <select
               id="list"
               size="10"
-              value={state[name]}
+              value={state["intervalIndex"]}
               onChange={selectOnChangeHandler}
               onClick={selectOnChangeHandler}
               className={`form-select ${classes.selectBox}`}
@@ -105,7 +122,7 @@ const SearchBox = (props) => {
           <div
             className={`rounded p-3 my-1 bg-success text-white fs-5 ${classes.result}`}
           >
-            {state[name]}
+            {state["interval"]}
           </div>
         </>
       )}
@@ -113,4 +130,4 @@ const SearchBox = (props) => {
   );
 };
 
-export default SearchBox;
+export default IntervalSearchBox;

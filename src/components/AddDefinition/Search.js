@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Context } from "../../state/context";
 import SearchBox from "./SearchBox";
+import IntervalSearchBox from "./IntervalSearchBox";
 import CronBox from "./UpdateRateBox";
 
 const EXCHANGES_ENDPOINT = "http://localhost:5000/exchanges";
@@ -27,9 +28,7 @@ const Search = () => {
         />
       </div>
       <div className="col border border-success m-1">
-        <SearchBox
-          name="interval"
-          inputLabel="Interval"
+        <IntervalSearchBox
           url={`${EXCHANGES_ENDPOINT}/${state.exchange}/intervals`}
         />
       </div>
