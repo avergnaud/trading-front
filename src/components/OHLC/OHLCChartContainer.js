@@ -4,10 +4,14 @@ import OHLCChart from "./OHLCChart";
 import * as d3 from "d3";
 
 const OHLCChartContainer = (props) => {
+
+  // On a un pb de perf d3.js, pour afficher un graphe OHLC avec 36 000 périodes...
+  const maxPeriods = 1000;
+
   // déplacer dans le state global ?
   const [ohlcs, setOhlcs] = useState([]);
 
-  const url = `${API_URL}/ohlcs/${props.exchange}/${props.pair}/${props.interval}`;
+  const url = `${API_URL}/ohlcs/${props.exchange}/${props.pair}/${props.interval}?last=1000`;
 
   /* TODO : ? supprimer les tailles ? */
   const visual = {
