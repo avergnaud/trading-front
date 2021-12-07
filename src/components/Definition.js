@@ -31,7 +31,7 @@ const Definition = (props) => {
   };
 
   const clickHandler = (e) => {
-    navigate(`/ohlc/${props.exchange}/${props.pair}/${props.interval}`);
+    navigate(`/ohlc/${props.exchange}/${props.pair}/${props.interval}/${props.intervalStd}`);
   };
 
   return (

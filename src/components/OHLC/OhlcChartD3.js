@@ -9,6 +9,8 @@ export class OhlcChartD3 {
         this.width = this.config.innerWidth + this.margin.right + this.margin.left;
         this.ohlcHeight = this.config.innerOhlcHeight + this.margin.top + this.margin.bottom;
         this.timeFormat = this.config.timeFormat;
+        this.getMinDate = this.config.getMinDate;
+        this.getMaxDate = this.config.getMaxDate;
     }
 
     setElement(element) {
@@ -33,12 +35,12 @@ export class OhlcChartD3 {
     /* setup scales from new data */
     createScales(newData) {
         /* this.x_scale: */
-        let xMin = new Date();
-        xMin.setHours(xMin.getHours() - 16);
+        let xMin = this.getMinDate(new Date());
+        //xMin.setHours(xMin.getHours() - 16);
         //xMin.setHours(xMin.getHours() - 32);
         //xMin.setDate(xMin.getDate() - 1);
         let xMax = d3.max(newData, d => new Date(Math.max(d.timestampms)));
-        xMax.setHours(xMax.getHours() +1);
+        xMax = this.getMaxDate(xMax);
         //xMax.setDate(xMax.getDate() + 1);
         this.x_scale = d3.scaleTime()
             .domain([xMin, xMax])

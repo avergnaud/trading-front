@@ -17,7 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />}></Route>
           <Route path="/definitions" element={<DefinitionsPage />}></Route>
-          <Route path="/ohlc/:exchange/:pair/:interval" element={<OHLCPage />} />
+          <Route path="/ohlc/:exchange/:pair/:interval/:intervalStd" element={<OHLCPage />} />
         </Routes>
         <div className="row">{state.error}</div>
       </Layout>

@@ -11,6 +11,7 @@ const Save = (props) => {
     state.exchange && state.pair && state.interval && state.update_rate;
 
   const clickHandler = () => {
+    console.log("state! ", state)
     fetch(`${API_URL}/ohlc_definitions`, {
       method: "post",
       headers: {
@@ -21,6 +22,7 @@ const Save = (props) => {
         exchange: state.exchange,
         pair: state.pair,
         interval: state.interval,
+        interval_std: state.intervalStd,
         update_rate: state.update_rate,
       }),
     })

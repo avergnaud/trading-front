@@ -37,13 +37,11 @@ const IntervalSearchBox = (props) => {
   };
 
   const selectOnChangeHandler = (e) => {
-    //setInputValue(e.target.value);
-    //console.log(e.target.selectedOptions)
     const element = selectValues[e.target.value];
     if(element) {
       dispatch({
         type: "SELECT_INTERVAL",
-        payload: { index: e.target.value, interval: element["interval"] },
+        payload: { index: e.target.value, interval: element["interval"], intervalStd: element["interval_std"] },
       });
     }
   };
@@ -63,7 +61,7 @@ const IntervalSearchBox = (props) => {
       );
     } else {
       return (
-        <option key={element._id} value={index} data-std={element["interval_std"]}>
+        <option key={element._id} value={index}>
           {element["interval"]}{" "}
           {element["interval_std"] && `[${element["interval_std"]}]`}
         </option>

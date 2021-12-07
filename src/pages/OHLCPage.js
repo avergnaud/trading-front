@@ -12,6 +12,7 @@ const OHLCPage = () => {
                 exchange={params.exchange}
                 pair={params.pair}
                 interval={params.interval}
+                intervalStd={params.intervalStd}
             />
         </>
     );

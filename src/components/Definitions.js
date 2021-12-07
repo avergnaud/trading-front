@@ -47,6 +47,7 @@ const Definitions = () => {
               exchange={definition.exchange}
               pair={definition.pair}
               interval={definition.interval}
+              intervalStd={definition.intervalStd}
               update_rate={definition.update_rate}
             />
           ))}
