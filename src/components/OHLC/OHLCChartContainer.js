@@ -88,7 +88,7 @@ const OHLCChartContainer = (props) => {
   };
 
   // pour debug
-  window.d3 = d3;
+  //window.d3 = d3;
 
   useEffect(() => {
     fetch(url)
