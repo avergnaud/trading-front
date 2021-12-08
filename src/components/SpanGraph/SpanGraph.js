@@ -1,19 +1,38 @@
-import { useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { SpanGraphD3 } from "./SpanGraphD3";
 import classes from "./SpanGraph.module.css";
 
 const SpanGraph = (props) => {
+  const now = new Date();
+  let oneYearBefore = new Date();
+  oneYearBefore.setFullYear(now.getFullYear() - 1);
 
-    /* dans cette div, on laisse d3 gérer le DOM */
-    const d3DivReference = useRef(null);
+  const [state, setState] = useState({
+    dateMin: oneYearBefore,
+    dateMax: now,
+  });
+
+  const spanChangeHandler = ([dateMin, dateMax]) => {
+    setState((previousState) => ({
+      ...previousState,
+      dateMin: dateMin,
+      dateMax: dateMax,
+    }));
+  };
+
+  /* dans cette div, on laisse d3 gérer le DOM */
+  const d3DivReference = useRef(null);
 
   /* SpanGraphD3.js chart reference */
   const chart = new SpanGraphD3({
     config: props.visual,
     cssClasses: {
-        simuLine: classes.simuLine,
-        simuZoom: classes.simuZoom
-    }
+      simuLine: classes.simuLine,
+      simuZoom: classes.simuZoom,
+    },
+    dateMin: state.dateMin,
+    dateMax: state.dateMax,
+    onSpanChange: spanChangeHandler,
   });
 
   /* seule une modification de props.data doit mettre à jour le graphe */
@@ -26,8 +45,68 @@ const SpanGraph = (props) => {
     }
     // eslint-disable-next-line
   }, [props.data]);
+  
+  const onMinDateInputChange = (event) => {
+    const newDateString = event.target.value;
+    const newDate = new Date(newDateString);
+    chart.dateMin = newDate;
+    chart.setElement(d3DivReference.current);
+    chart.draw(props.data);
+    setState((previousState) => ({
+      ...previousState,
+      dateMin: newDate,
+    }));
+  };
 
-  return <div ref={d3DivReference}>Loading...</div>;
+  const onMaxDateInputChange = (event) => {
+    const newDateString = event.target.value;
+    const newDate = new Date(newDateString);
+    chart.dateMax = newDate;
+    chart.setElement(d3DivReference.current);
+    chart.draw(props.data);
+    setState((previousState) => ({
+      ...previousState,
+      dateMax: newDate,
+    }));
+  };
+
+  // ? date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+  const nowString = now.toISOString().slice(0, 16);
+  const dateMinString = state.dateMin.toISOString().slice(0, 16);
+  const dateMaxString = state.dateMax.toISOString().slice(0, 16);
+
+  return (
+    <>
+    <div className={`row ${classes.datesInput}`}>
+      <div className="col-sm">
+        <input
+          type="datetime-local"
+          id="from-time"
+          name="from-time"
+          value={dateMinString}
+          min="2015-01-01T00:00"
+          max={nowString}
+          onChange={onMinDateInputChange}
+          required
+        ></input>
+      </div>
+      <div className="col-sm">to</div>
+      <div className="col-sm">
+        <input
+          type="datetime-local"
+          id="to-time"
+          name="to-time"
+          value={dateMaxString}
+          min="2015-01-01T00:00"
+          max={nowString}
+          onChange={onMaxDateInputChange}
+          required
+        ></input>
+      </div>
+    </div>
+      <div ref={d3DivReference}>Loading...</div>
+    </>
+  );
 };
 
 export default SpanGraph;

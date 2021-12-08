@@ -17,6 +17,11 @@ export class SpanGraphD3 {
     let cssClasses = opts.cssClasses;
     this.simuLineClass = cssClasses.simuLine;
     this.simuZoomClass = cssClasses.simuZoom;
+
+    /* interaction avec le composant React : */
+    this.dateMin = opts.dateMin;
+    this.dateMax = opts.dateMax;
+    this.onSpanChange = opts.onSpanChange;
   }
 
   setElement(element) {
@@ -86,10 +91,8 @@ export class SpanGraphD3 {
       )
       .call(this.zoom);
 
-    const now = new Date();
-    let oneYearBefore = new Date();
-    oneYearBefore = oneYearBefore.setFullYear(now.getFullYear() - 1);
-    this.updateGraphs([this.x2(oneYearBefore), this.x2(now)]);
+    // init avec les dates min et max fournies
+    this.updateGraphs([this.x2(this.dateMin), this.x2(this.dateMax)]);
   }
 
   /**
@@ -242,5 +245,7 @@ export class SpanGraphD3 {
     this.context
       .select(".brush")
       .call(this.brush.move, this.x.range().map(t.invertX, t));
+    
+      this.onSpanChange(this.x.domain())
   }
 }
