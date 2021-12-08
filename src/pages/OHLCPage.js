@@ -6,15 +6,19 @@ const OHLCPage = () => {
     let params = useParams();
 
     return (
-        <>
-            <div>Displays {params.exchange} {params.pair} {params.interval}</div>
-            <OHLCChartContainer 
-                exchange={params.exchange}
-                pair={params.pair}
-                interval={params.interval}
-                intervalStd={params.intervalStd}
-            />
-        </>
+        <div className="row">
+            <div className="col-md">
+                <div>Displays {params.exchange} {params.pair} {params.interval}</div>
+            </div>
+            <div className="col-md">
+                <OHLCChartContainer 
+                    exchange={params.exchange}
+                    pair={params.pair}
+                    interval={params.interval}
+                    intervalStd={params.intervalStd}
+                />
+            </div>
+        </div>
     );
 };
 

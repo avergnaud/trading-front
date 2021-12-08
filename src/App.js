@@ -4,6 +4,7 @@ import { Context } from "./state/context";
 import HomePage from "./pages/HomePage";
 import DefinitionsPage from "./pages/DefinitionsPage";
 import OHLCPage from "./pages/OHLCPage";
+import CalibrationPage from "./pages/CalibrationPage";
 import "./App.css";
 import Layout from "./layout/Layout";
 
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />}></Route>
           <Route path="/definitions" element={<DefinitionsPage />}></Route>
+          <Route path="/calibrations" element={<CalibrationPage />} />
           <Route path="/ohlc/:exchange/:pair/:interval/:intervalStd" element={<OHLCPage />} />
         </Routes>
         <div className="row">{state.error}</div>

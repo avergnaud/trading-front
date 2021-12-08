@@ -35,13 +35,11 @@ export class OhlcChartD3 {
     /* setup scales from new data */
     createScales(newData) {
         /* this.x_scale: */
-        let xMin = this.getMinDate(new Date());
-        //xMin.setHours(xMin.getHours() - 16);
-        //xMin.setHours(xMin.getHours() - 32);
-        //xMin.setDate(xMin.getDate() - 1);
+        const xMin = this.getMinDate(new Date());
+        let xMinFromData= d3.min(newData, d => new Date(Math.min(d.timestampms)));
         let xMax = d3.max(newData, d => new Date(Math.max(d.timestampms)));
         xMax = this.getMaxDate(xMax);
-        //xMax.setDate(xMax.getDate() + 1);
+        if(xMin >= xMax) alert("xMin > xMax. Bad data");
         this.x_scale = d3.scaleTime()
             .domain([xMin, xMax])
             .range([this.margin.left, this.width]);
@@ -85,7 +83,10 @@ export class OhlcChartD3 {
             .attr("class", "ohlc")
             .attr("x1", d => (this.x_scale(d.time)))
             .attr("x2", d => (this.x_scale(d.time)))
-            .attr("y1", d => (this.yOhlcScale(d.high)))
+            .attr("y1", d => {
+                //if(isNaN(this.yOhlcScale(d.high))) debugger;
+                return this.yOhlcScale(d.high);
+            })
             .attr("y2", d => (this.yOhlcScale(d.low)))
             .attr("stroke", "black")
             .attr("clip-path", "url(#ohlc-clip)");

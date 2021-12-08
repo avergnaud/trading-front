@@ -1,6 +1,7 @@
 import classes from "./SearchBox.module.css";
 import { useState, useEffect, useContext } from "react";
 import { Context } from "../../state/context";
+import { ftx_enabled_intervals } from "../../constants";
 import Loader from "../../UI/Loader";
 
 const IntervalSearchBox = (props) => {
@@ -52,21 +53,24 @@ const IntervalSearchBox = (props) => {
   });
 
   const selectElements = selectValues.map((element, index) => {
-    if (element["allowed"] === false) {
-      return (
-        <option key={element._id} value="" disabled>
-          {element["interval"]}{" "}
-          {element["interval_std"] && `[${element["interval_std"]}]`}
-        </option>
-      );
-    } else {
-      return (
-        <option key={element._id} value={index}>
-          {element["interval"]}{" "}
-          {element["interval_std"] && `[${element["interval_std"]}]`}
-        </option>
-      );
+    /* certains intervales ne sont pas (encore) autorisés (trop courts) */
+    let disabled = false;
+    let value = index;
+    if(element["allowed"] === false) {
+      disabled = true;
+      value = "";
     }
+    /* on indique quels intervales sont disponibles sur FTX, vu qu'on trade avec FTX */
+    let ftxInterval = null;
+    if(ftx_enabled_intervals.includes(element["interval_std"])) {
+      ftxInterval = "FTX enabled";
+    }
+    return (
+      <option key={element._id} value={value} disabled={disabled}>
+        {element["interval"]}{" "}
+        {ftxInterval && `[${ftxInterval}]`}
+      </option>
+    );
   });
 
   return (

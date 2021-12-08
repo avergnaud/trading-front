@@ -31,6 +31,11 @@ const MainNavigation = () => {
                   Definitions
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link active" aria-current="page" to="/calibrations">
+                  Indicators Calibration
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
