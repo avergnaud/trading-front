@@ -12,7 +12,7 @@ const Save = (props) => {
 
   const clickHandler = () => {
     console.log("state! ", state)
-    fetch(`${API_URL}/ohlc_definitions`, {
+    fetch(`${API_URL}/ohlcs/definitions`, {
       method: "post",
       headers: {
         Accept: "application/json, text/plain, */*",

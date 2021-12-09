@@ -3,7 +3,7 @@ import { Context } from "../state/context";
 import Definition from "./Definition";
 import { API_URL } from "../constants";
 
-const url = `${API_URL}/ohlc_definitions`;
+const url = `${API_URL}/ohlcs/definitions`;
 
 const Definitions = () => {
   /* global state */

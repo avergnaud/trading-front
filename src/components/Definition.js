@@ -14,7 +14,7 @@ const Definition = (props) => {
   const [state, dispatch] = useContext(Context);
 
   const deleteClickHandler = () => {
-    fetch(`${API_URL}/ohlc_definitions`, {
+    fetch(`${API_URL}/ohlcs/definitions`, {
       method: "delete",
       headers: {
         Accept: "application/json, text/plain, */*",
