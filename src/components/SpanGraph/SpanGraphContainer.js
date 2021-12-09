@@ -46,7 +46,12 @@ const SpanGraphContainer = (props) => {
         });
     }, [url]);
 
-    return <SpanGraph data={ohlcs} visual={visual} />;
+    return <SpanGraph 
+      exchange={props.exchange}
+      pair={props.pair}
+      interval={props.interval}
+      data={ohlcs} 
+      visual={visual} />;
 };
 
 export default SpanGraphContainer;

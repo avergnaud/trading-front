@@ -8,6 +8,8 @@ const INITIAL_STATE = {
   intervalIndex: "",
   update_rate: 20,
   ohlcDefinitions: {},
+  showAvailableBots: false,
+  selectedData: [],
   error: null,
 };
 
@@ -76,7 +78,7 @@ const reducer = (state, action) => {
         pair: action.payload.pair,
         interval: action.payload.interval,
         intervalStd: action.payload.interval_std,
-        update_rate: action.payload.update_rate,
+        update_rate: action.payload.update_rate
       };
       return {
         ...state,
@@ -92,6 +94,14 @@ const reducer = (state, action) => {
       return {
         ...state,
         ohlcDefinitions: newOhlcDefinitions,
+      };
+    };
+    case "USE_OHLC_DATA": {
+      console.log("USE_OHLC_DATA", action.payload)
+      return {
+        ...state,
+        showAvailableBots: true,
+        selectedData: action.payload
       };
     }
     default:

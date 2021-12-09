@@ -1,8 +1,12 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
+import { Context } from "../../state/context";
 import { SpanGraphD3 } from "./SpanGraphD3";
 import classes from "./SpanGraph.module.css";
 
 const SpanGraph = (props) => {
+  /* global state */
+  const [globalState, dispatch] = useContext(Context);
+
   const now = new Date();
   let oneYearBefore = new Date();
   oneYearBefore.setFullYear(now.getFullYear() - 1);
@@ -45,7 +49,8 @@ const SpanGraph = (props) => {
     }
     // eslint-disable-next-line
   }, [props.data]);
-  
+
+  /* y a sûrement une meilleure impl à la façon "react" */
   const onMinDateInputChange = (event) => {
     const newDateString = event.target.value;
     const newDate = new Date(newDateString);
@@ -70,6 +75,16 @@ const SpanGraph = (props) => {
     }));
   };
 
+  const useClickHandler = () => {
+    const selectedData = props.data.filter(
+      (data) => data.date >= state.dateMin && data.date <= state.dateMax
+    );
+    dispatch({
+      type: "USE_OHLC_DATA",
+      payload: selectedData,
+    });
+  };
+
   // ? date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
   const nowString = now.toISOString().slice(0, 16);
   const dateMinString = state.dateMin.toISOString().slice(0, 16);
@@ -77,33 +92,48 @@ const SpanGraph = (props) => {
 
   return (
     <>
-    <div className={`row ${classes.datesInput}`}>
-      <div className="col-sm">
-        <input
-          type="datetime-local"
-          id="from-time"
-          name="from-time"
-          value={dateMinString}
-          min="2015-01-01T00:00"
-          max={nowString}
-          onChange={onMinDateInputChange}
-          required
-        ></input>
+      <div className={`row ${classes.datesInput}`}>
+        <div className="card">
+          <div className="card-body">
+            <button
+              className={`btn btn-outline-success btn-lg`}
+              onClick={useClickHandler}
+            >
+              Use {props.exchange} {props.pair} {props.interval}
+            </button>
+            <span className="col-auto mx-3">
+              <label htmlFor="from-time" className="col-form-label">
+                From
+              </label>
+            </span>
+            <input
+              type="datetime-local"
+              id="from-time"
+              name="from-time"
+              value={dateMinString}
+              min="2015-01-01T00:00"
+              max={nowString}
+              onChange={onMinDateInputChange}
+              required
+            ></input>
+            <span className="col-auto mx-3">
+              <label htmlFor="from-time" className="col-form-label">
+                to
+              </label>
+            </span>
+            <input
+              type="datetime-local"
+              id="to-time"
+              name="to-time"
+              value={dateMaxString}
+              min="2015-01-01T00:00"
+              max={nowString}
+              onChange={onMaxDateInputChange}
+              required
+            ></input>
+          </div>
+        </div>
       </div>
-      <div className="col-sm">to</div>
-      <div className="col-sm">
-        <input
-          type="datetime-local"
-          id="to-time"
-          name="to-time"
-          value={dateMaxString}
-          min="2015-01-01T00:00"
-          max={nowString}
-          onChange={onMaxDateInputChange}
-          required
-        ></input>
-      </div>
-    </div>
       <div ref={d3DivReference}>Loading...</div>
     </>
   );
