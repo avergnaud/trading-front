@@ -15,7 +15,7 @@ const CalibrationPage = () => {
         },
         []);
 
-    return (<><h1>Indicators Calibration</h1>
+    return (<><h1>Indicators Optimisation</h1>
         <img alt="scatterPlot" src={`data:image/jpeg;base64,${base64img}`} />
         </>);
         };

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import SpanGraph from "./SpanGraph";
 import { API_URL } from "../../constants";
+import Loader from "../../UI/Loader";
 import * as d3 from "d3";
 
 const SpanGraphContainer = (props) => {
@@ -9,7 +10,10 @@ const SpanGraphContainer = (props) => {
 
     let timeFormat = d3.timeFormat("%m-%d %Hh");// inutile
 
-    const [ohlcs, setOhlcs] = useState([]);
+    const [localState, setLocalState] = useState({
+      ohlcs: [],
+      isLoading: false
+    });
 
     const visual = {
       margin: { top: 50, right: 30, bottom: 110, left: 40 },
@@ -23,6 +27,10 @@ const SpanGraphContainer = (props) => {
     };
 
     useEffect(() => {
+      setLocalState(previousState => ({
+        ...previousState,
+        isLoading: true
+      }));
       fetch(url)
         .then((res) => {
           if (res.ok) {
@@ -42,16 +50,28 @@ const SpanGraphContainer = (props) => {
               timestampms: item.timestamp * 1000,
             };
           });
-          setOhlcs(formattedData);
+          setLocalState(previousState => ({
+            ...previousState,
+            isLoading: false,
+            ohlcs: formattedData
+          }));
         });
     }, [url]);
 
-    return <SpanGraph 
-      exchange={props.exchange}
-      pair={props.pair}
-      interval={props.interval}
-      data={ohlcs} 
-      visual={visual} />;
+    if(localState.isLoading) {
+      return (
+        <div className="d-flex justify-content-center">
+          <Loader />
+        </div>
+        );
+    } else {
+      return <SpanGraph 
+        exchange={props.exchange}
+        pair={props.pair}
+        interval={props.interval}
+        data={localState.ohlcs} 
+        visual={visual} />;
+    }
 };
 
 export default SpanGraphContainer;

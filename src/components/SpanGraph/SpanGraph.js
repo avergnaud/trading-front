@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import { Context } from "../../state/context";
 import { SpanGraphD3 } from "./SpanGraphD3";
+import Loader from "../../UI/Loader";
 import classes from "./SpanGraph.module.css";
 
 const SpanGraph = (props) => {
@@ -14,6 +15,7 @@ const SpanGraph = (props) => {
   const [state, setState] = useState({
     dateMin: oneYearBefore,
     dateMax: now,
+    isLoading: false,
   });
 
   const spanChangeHandler = ([dateMin, dateMax]) => {
@@ -47,7 +49,6 @@ const SpanGraph = (props) => {
       /* on appelle sa méthode draw */
       chart.draw(props.data);
     }
-    // eslint-disable-next-line
   }, [props.data]);
 
   /* y a sûrement une meilleure impl à la façon "react" */
@@ -134,7 +135,9 @@ const SpanGraph = (props) => {
           </div>
         </div>
       </div>
-      <div ref={d3DivReference}>Loading...</div>
+      <div ref={d3DivReference} className="d-flex justify-content-center">
+        <Loader />
+      </div>
     </>
   );
 };

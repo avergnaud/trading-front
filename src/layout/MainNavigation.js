@@ -28,12 +28,12 @@ const MainNavigation = () => {
               </li>
               <li className="nav-item">
                 <Link className="nav-link active" aria-current="page" to="/definitions">
-                  Definitions
+                  Market Definitions
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" to="/calibrations">
-                  Indicators Calibration
+                <Link className="nav-link active" aria-current="page" to="/optimisations">
+                  Indicators Optimisation
                 </Link>
               </li>
             </ul>
