@@ -12,7 +12,9 @@ const SpanGraphContainer = (props) => {
 
     const [localState, setLocalState] = useState({
       ohlcs: [],
-      isLoading: false
+      dateMin: null,
+      dateMax: null,
+      isLoading: true
     });
 
     const visual = {
@@ -50,8 +52,13 @@ const SpanGraphContainer = (props) => {
               timestampms: item.timestamp * 1000,
             };
           });
+          const dates = formattedData.map(data => data.date);
+          const minDate = new Date(Math.min(...dates));
+          const maxDate = new Date(Math.max(...dates));
           setLocalState(previousState => ({
             ...previousState,
+            dateMin: minDate,
+            dateMax: maxDate,
             isLoading: false,
             ohlcs: formattedData
           }));
@@ -70,6 +77,8 @@ const SpanGraphContainer = (props) => {
         pair={props.pair}
         interval={props.interval}
         data={localState.ohlcs} 
+        dateMin={localState.dateMin}
+        dateMax={localState.dateMax}
         visual={visual} />;
     }
 };

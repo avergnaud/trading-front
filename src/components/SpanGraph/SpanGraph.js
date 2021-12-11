@@ -9,12 +9,11 @@ const SpanGraph = (props) => {
   const [globalState, dispatch] = useContext(Context);
 
   const now = new Date();
-  let oneYearBefore = new Date();
-  oneYearBefore.setFullYear(now.getFullYear() - 1);
+  const nowString = now.toISOString().slice(0, 16);
 
   const [state, setState] = useState({
-    dateMin: oneYearBefore,
-    dateMax: now,
+    dateMin: props.dateMin,
+    dateMax: props.dateMax,
     isLoading: false,
   });
 
@@ -86,11 +85,6 @@ const SpanGraph = (props) => {
     });
   };
 
-  // ? date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-  const nowString = now.toISOString().slice(0, 16);
-  const dateMinString = state.dateMin.toISOString().slice(0, 16);
-  const dateMaxString = state.dateMax.toISOString().slice(0, 16);
-
   return (
     <>
       <div className={`row ${classes.datesInput}`}>
@@ -111,7 +105,7 @@ const SpanGraph = (props) => {
               type="datetime-local"
               id="from-time"
               name="from-time"
-              value={dateMinString}
+              value={state.dateMin.toISOString().slice(0, 16)}
               min="2015-01-01T00:00"
               max={nowString}
               onChange={onMinDateInputChange}
@@ -126,7 +120,7 @@ const SpanGraph = (props) => {
               type="datetime-local"
               id="to-time"
               name="to-time"
-              value={dateMaxString}
+              value={state.dateMax.toISOString().slice(0, 16)}
               min="2015-01-01T00:00"
               max={nowString}
               onChange={onMaxDateInputChange}
