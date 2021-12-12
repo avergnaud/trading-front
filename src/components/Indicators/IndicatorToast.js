@@ -1,28 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import classes from "./IndicatorToast.module.css";
-import Loader from "../../UI/Loader";
+import IndicatorImgResult from "./IndicatorImgResult";
 
 const IndicatorToast = (props) => {
-  const [localState, setLocalState] = useState({
-    base64img: "",
-    isLoading: false,
-  });
-
-  useEffect(() => {
-    setLocalState((previousState) => ({
-      ...previousState,
-      isLoading: true,
-    }));
-    fetch(props.url)
-      .then((response) => response.text())
-      .then((text) =>
-        setLocalState((previousState) => ({
-          ...previousState,
-          base64img: text,
-          isLoading: false,
-        }))
-      );
-  }, []);
+  const [show, setShow] = useState(false);
 
   return (
     <div
@@ -39,21 +20,21 @@ const IndicatorToast = (props) => {
           className="btn-close"
           data-bs-dismiss="toast"
           aria-label="Close"
+          onClick={() => setShow(false)}
         ></button>
       </div>
-      <div className="toast-body">
-        {localState.isLoading && (
-          <div className="d-flex justify-content-center">
-            <Loader />
-          </div>
-        )}
-        {!localState.isLoading && (
-          <img
-            alt="scatterPlot"
-            src={`data:image/jpeg;base64,${localState.base64img}`}
-          />
-        )}
-      </div>
+      {!show && (
+        <div className={`d-flex justify-content-center align-items-center ${classes.beforeToastBody}`}>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => setShow(true)}
+          >
+            Calibrate
+          </button>
+        </div>
+      )}
+      {show && <IndicatorImgResult url={props.url} />}
     </div>
   );
 };

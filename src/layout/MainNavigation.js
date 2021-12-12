@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import MainHeader from "./MainHeader";
 
 const MainNavigation = () => {
   return (
@@ -40,11 +41,7 @@ const MainNavigation = () => {
           </div>
         </div>
       </nav>
-      <header className="my-3 App-header">
-        <h1 className="display-1">Brochain.net</h1>
-        <p className="lead">Optimisations, Backtesting & bot trading</p>
-        <hr className="my-4" />
-      </header>
+      <MainHeader />
     </>
   );
 };

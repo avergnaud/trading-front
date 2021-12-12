@@ -11,14 +11,14 @@ const SpanGraph = (props) => {
   const now = new Date();
   const nowString = now.toISOString().slice(0, 16);
 
-  const [state, setState] = useState({
+  const [localState, setLocalState] = useState({
     dateMin: props.dateMin,
     dateMax: props.dateMax,
     isLoading: false,
   });
 
   const spanChangeHandler = ([dateMin, dateMax]) => {
-    setState((previousState) => ({
+    setLocalState((previousState) => ({
       ...previousState,
       dateMin: dateMin,
       dateMax: dateMax,
@@ -35,8 +35,8 @@ const SpanGraph = (props) => {
       simuLine: classes.simuLine,
       simuZoom: classes.simuZoom,
     },
-    dateMin: state.dateMin,
-    dateMax: state.dateMax,
+    dateMin: localState.dateMin,
+    dateMax: localState.dateMax,
     onSpanChange: spanChangeHandler,
   });
 
@@ -57,7 +57,7 @@ const SpanGraph = (props) => {
     chart.dateMin = newDate;
     chart.setElement(d3DivReference.current);
     chart.draw(props.data);
-    setState((previousState) => ({
+    setLocalState((previousState) => ({
       ...previousState,
       dateMin: newDate,
     }));
@@ -69,7 +69,7 @@ const SpanGraph = (props) => {
     chart.dateMax = newDate;
     chart.setElement(d3DivReference.current);
     chart.draw(props.data);
-    setState((previousState) => ({
+    setLocalState((previousState) => ({
       ...previousState,
       dateMax: newDate,
     }));
@@ -77,11 +77,15 @@ const SpanGraph = (props) => {
 
   const useClickHandler = () => {
     const selectedData = props.data.filter(
-      (data) => data.date >= state.dateMin && data.date <= state.dateMax
+      (data) => data.date >= localState.dateMin && data.date <= localState.dateMax
     );
     dispatch({
       type: "USE_OHLC_DATA",
-      payload: selectedData,
+      payload: {
+        selectedData: selectedData,
+        selectedMinDate: localState.dateMin,
+        selectedMaxDate: localState.dateMax
+      },
     });
   };
 
@@ -105,7 +109,7 @@ const SpanGraph = (props) => {
               type="datetime-local"
               id="from-time"
               name="from-time"
-              value={state.dateMin.toISOString().slice(0, 16)}
+              value={localState.dateMin.toISOString().slice(0, 16)}
               min="2015-01-01T00:00"
               max={nowString}
               onChange={onMinDateInputChange}
@@ -120,7 +124,7 @@ const SpanGraph = (props) => {
               type="datetime-local"
               id="to-time"
               name="to-time"
-              value={state.dateMax.toISOString().slice(0, 16)}
+              value={localState.dateMax.toISOString().slice(0, 16)}
               min="2015-01-01T00:00"
               max={nowString}
               onChange={onMaxDateInputChange}

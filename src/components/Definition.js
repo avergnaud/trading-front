@@ -7,7 +7,6 @@ import classes from "./Definition.module.css";
 import { API_URL } from "../constants";
 
 const Definition = (props) => {
-
   let navigate = useNavigate();
 
   /* global state */
@@ -31,7 +30,17 @@ const Definition = (props) => {
   };
 
   const clickHandler = (e) => {
-    navigate(`/ohlc/${props.exchange}/${props.pair}/${props.interval}/${props.intervalStd}`);
+    dispatch({
+      type: "SELECT_MARKET",
+      payload: {
+        exchange: props.exchange,
+        pair: props.pair,
+        interval: props.interval,
+      },
+    });
+    navigate(
+      `/ohlc/${props.exchange}/${props.pair}/${props.interval}/${props.intervalStd}`
+    );
   };
 
   return (
@@ -41,7 +50,11 @@ const Definition = (props) => {
       <td onClick={clickHandler}>{props.interval}</td>
       <td onClick={clickHandler}>{props.update_rate}</td>
       <td className={`bg-warning ${classes.deleteTd}`}>
-        <button type="button" className="btn btn-lg" onClick={deleteClickHandler}>
+        <button
+          type="button"
+          className="btn btn-lg"
+          onClick={deleteClickHandler}
+        >
           <FontAwesomeIcon icon={faTrash} />
         </button>
       </td>

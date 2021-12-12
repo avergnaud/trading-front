@@ -10,7 +10,8 @@ import Layout from "./layout/Layout";
 
 function App() {
   /* global state */
-  const [state, dispatch] = useContext(Context);
+  const context = useContext(Context);
+  const state = context[0];
 
   return (
     <div className="container">

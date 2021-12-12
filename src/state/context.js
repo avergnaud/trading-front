@@ -10,6 +10,9 @@ const INITIAL_STATE = {
   ohlcDefinitions: {},
   showAvailableBots: false,
   selectedData: [],
+  /* redondant mais plus rapide: */
+  selectedMinDate: undefined,
+  selectedMaxDate: undefined,
   error: null,
 };
 
@@ -42,6 +45,14 @@ const reducer = (state, action) => {
         intervalIndex: action.payload.index,
         intervalStd: action.payload.intervalStd
       }
+    }
+    case "SELECT_MARKET": {
+      return {
+        ...state,
+        exchange: action.payload.exchange,
+        pair: action.payload.pair,
+        interval: action.payload.interval
+      };
     }
     case "init_definitions": {
       let newOhlcDefinitions = {};
@@ -97,11 +108,16 @@ const reducer = (state, action) => {
       };
     };
     case "USE_OHLC_DATA": {
+      console.log("USE_OHLC_DATA exchange", state.exchange)
+      console.log("USE_OHLC_DATA pair", state.pair)
+      console.log("USE_OHLC_DATA interval", state.interval)
       console.log("USE_OHLC_DATA", action.payload)
       return {
         ...state,
         showAvailableBots: true,
-        selectedData: action.payload
+        selectedData: action.payload.selectedData,
+        selectedMinDate: action.payload.selectedMinDate,
+        selectedMaxDate: action.payload.selectedMaxDate
       };
     }
     default:
