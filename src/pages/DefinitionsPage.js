@@ -1,5 +1,5 @@
 import AddDefinition from "../components/AddDefinition/AddDefinition";
-import Definitions from "../components/Definitions";
+import Definitions from "../components/Definitions/Definitions";
 
 const DefinitionsPage = () => {
   return (

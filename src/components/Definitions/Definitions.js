@@ -1,7 +1,7 @@
 import { useEffect, useContext } from "react";
-import { Context } from "../state/context";
+import { Context } from "../../state/context";
 import Definition from "./Definition";
-import { API_URL } from "../constants";
+import { API_URL } from "../../constants";
 
 const url = `${API_URL}/ohlcs/definitions`;
 

@@ -9,7 +9,6 @@ const MainHeader = () => {
   if (state.exchange && state.pair && state.interval) {
     leadText = `Using ${state.exchange} ${state.pair} ${state.interval}`;
   }
-  debugger;
   if (state.selectedMinDate && state.selectedMaxDate) {
     leadText += ` from ${state.selectedMinDate
       .toISOString()

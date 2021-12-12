@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Context } from "../state/context";
+import { Context } from "../../state/context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import classes from "./Definition.module.css";
-import { API_URL } from "../constants";
+import { API_URL } from "../../constants";
 
 const Definition = (props) => {
   let navigate = useNavigate();

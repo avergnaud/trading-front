@@ -8,6 +8,10 @@ const OHLCPage = () => {
   /* global state */
   const [state, dispatch] = useContext(Context);
 
+  // TMP
+  console.log(state.selectedMinDate && state.selectedMinDate.getTime()/1000)
+  console.log(state.selectedMaxDate && state.selectedMaxDate.getTime()/1000)
+
   let params = useParams();
 
   /* cas où on arrive directement sur cette page */
