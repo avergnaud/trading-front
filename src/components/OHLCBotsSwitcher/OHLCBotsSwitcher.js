@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Context } from "../../state/context";
 import classes from "./OHLCBotsSwitcher.module.css";
 import OHLCChartContainer from "../OHLC/OHLCChartContainer";
+import Bots from "../Bots/Bots";
 
 /*
 Ce composant affiche d'abord le marché (ohlc définition)
@@ -16,7 +17,7 @@ const OHLCBotsSwitcher = (props) => {
   const showAvailableBots = globalState.showAvailableBots;
 
   if (showAvailableBots) {
-    return <div>Hello bots</div>;
+    return <Bots />;
   } else {
     return (
       <>
