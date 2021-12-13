@@ -67,7 +67,7 @@ const BackTest = (props) => {
           </div>
           <div>
               {isLoading && <Loader />}
-              {!isLoading && JSON.stringify(result) }
+              {!isLoading && JSON.stringify(result, null, "\t") }
           </div>
         </div>
       </div>
