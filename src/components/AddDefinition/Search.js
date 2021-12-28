@@ -3,8 +3,9 @@ import { Context } from "../../state/context";
 import SearchBox from "./SearchBox";
 import IntervalSearchBox from "./IntervalSearchBox";
 import CronBox from "./UpdateRateBox";
+import { API_URL } from "../../constants";
 
-const EXCHANGES_ENDPOINT = "http://localhost:5000/exchanges";
+const EXCHANGES_ENDPOINT = `${API_URL}/exchanges`;
 
 const Search = () => {
   /* global state */
