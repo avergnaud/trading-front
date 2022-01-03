@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  trading-front:
+    build:
+      dockerfile: $PWD/Dockerfile
+      context: $PWD/
+    working_dir: /app
+    ports:
+      - "3000"
+    volumes:
+      - ./:/app
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    tty: true
